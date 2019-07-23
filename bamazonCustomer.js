@@ -15,17 +15,26 @@ var connection = mysql.createConnection({
 
 connection.connect(function(err){
     if (err) throw err;
+    console.log("You're connected!");
     getProductInfo();
+    displayProducts();
+            
 })
 
-
+function displayProducts(){
+    connection.query("SELECT * FROM products", function(err, res){
+        if (err) throw err;
+// console.log(res);
+        for (var i = 0; i < res.length; i++) {
+            console.log(`${res[i].item_id} | ${res[i].product_name} | $${res[i].price}`)
+            }
+    
+    })
+};
 
 function getProductInfo(){
-connection.query("SELECT item_id, product_name FROM products", function(err, data){
-    if (err) throw err;
-    console.table(data);
-}
-)
+
+
     inquirer.prompt([
     {
       name: "id",
@@ -39,16 +48,17 @@ connection.query("SELECT item_id, product_name FROM products", function(err, dat
     }
 ]).then(function(answers) {
       console.log(`Product ID of ${answers.id} in the quantity of ${answers.quantity} has been requested.`);
-      connection.query("SELECT * FROM products WHERE ?",{
-          item_id: answers.id &&
-          stock_quantity > answers.quantity,
-      }, 
+      connection.query("SELECT item_id, stock_quantity FROM products WHERE ?",[
+          {
+          item_id: answers.id},
+         
+      ], 
       function(err, data){
           if (err) throw err;
-          console.table(data);
+       console.log(data);
       })
   });
-}
+};
 
 
 
