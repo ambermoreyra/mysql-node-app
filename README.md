@@ -14,3 +14,9 @@ To shop, the user enters: `node bamazonCustomer`. Each item from the `products` 
 * If there is not enough quantity, the user will receive an insufficient quantity message.
 
 <img src="img/bamazon_example.jpg"> 
+
+### Technologies
+
+JavaScript, mySQL, mySQL node module, and Inquirer node module.
+
+#### Created by Amber Moreyra
